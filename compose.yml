@@ -1,0 +1,69 @@
+version: "3"
+services:
+  # Rails バックエンド
+  api:
+    build: ./api
+    # environment:
+    #   RAILS_ENV: production
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0' -e development"
+    # command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -e development"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./api:/myapp
+      - public:/myapp/public
+      - tmp:/myapp/tmp
+      - gem_data:/usr/local/bundle
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+
+  web:
+    build: ./nginx
+    volumes:
+      # - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx
+      - public:/myapp/public
+      - tmp:/myapp/tmp
+    ports:
+      - 80:80
+    depends_on:
+      - api
+
+  # Vite React フロントエンド
+  front:
+    build: ./front
+    command: npm run dev
+    ports:
+      - 5173:5173
+    volumes:
+      - ./front:/myapp
+    depends_on:
+      - api
+
+  # MySQL データベース
+  db:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    # MYSQL_ALLOW_EMPTY_PASSWORD: true
+    # MYSQL_USER: root
+    # MYSQL_PASSWORD: password
+    volumes:
+      - mysql-data:/var/lib/mysql
+    # environment:
+    #   MYSQL_ROOT_PASSWORD: pass
+    #   MYSQL_DATABASE: e_project_development
+    #   MYSQL_USER: root
+    #   MYSQL_PASSWORD: pass
+
+volumes:
+  mysql-data:
+  public:
+  tmp:
+  gem_data:
+    driver: local
