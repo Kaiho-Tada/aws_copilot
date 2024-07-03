@@ -11,7 +11,7 @@ phases:
   pre_build:
     commands:
       - echo "Setting environment variables..."
-      - export RAILS_MASTER_KEY=$(aws ssm get-parameter --name "RAILS_MASTER_KEY" --with-decryption --query "Parameter.Value" --output text)
+      - export SECRET_KEY_BASE=$(aws ssm get-parameter --name "RAILS_MASTER_KEY" --with-decryption --query "Parameter.Value" --output text)
   build:
     commands:
       - echo "Run your tests"
