@@ -23,22 +23,17 @@ image:
 
 cpu: 256 # Number of CPU units for the task.
 memory: 512 # Amount of memory in MiB used by the task.
-platform: linux/amd64 # See https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/#platform
+platform: linux/x86_64 # See https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/#platform
 count: 1 # Number of tasks that should be running in your service.
 exec: true # Enable running commands in your container.
 network:
   connect: true # Enable Service Connect for intra-environment traffic between services.
 
-sidecars:
-  proxy:
-    port: 80
-    image: 654654416382.dkr.ecr.ap-northeast-1.amazonaws.com/myapp_nginx:latest
-
 secrets:
-  MYSQL_HOST: /copilot/app/test/secrets/MYSQL_HOST
-  MYSQL_USER: /copilot/app/test/secrets/MYSQL_USER
-  MYSQL_PASSWORD: /copilot/app/test/secrets/MYSQL_PASSWORD
-  RAILS_ENV: /copilot/app/test/secrets/RAILS_ENV
+  MYSQL_HOST: /copilot/myapp/test/secrets/MYSQL_HOST
+  MYSQL_USER: /copilot/myapp/test/secrets/MYSQL_USER
+  MYSQL_PASSWORD: /copilot/myapp/test/secrets/MYSQL_PASSWORD
+  RAILS_ENV: /copilot/myapp/test/secrets/RAILS_ENV
 # storage:
 # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
 
