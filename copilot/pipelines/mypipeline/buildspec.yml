@@ -8,6 +8,10 @@ phases:
       # Download the copilot linux binary.
       - wget -q https://ecs-cli-v2-release.s3.amazonaws.com/copilot-linux-v1.33.2 -O copilot-linux
       - chmod +x ./copilot-linux
+  pre_build:
+    commands:
+      - echo "Setting environment variables..."
+      - export RAILS_MASTER_KEY=$(aws ssm get-parameter --name "RAILS_MASTER_KEY" --with-decryption --query "Parameter.Value" --output text)
   build:
     commands:
       - echo "Run your tests"
