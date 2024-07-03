@@ -34,7 +34,8 @@ secrets:
   MYSQL_USER: /copilot/myapp/test/secrets/MYSQL_USER
   MYSQL_PASSWORD: /copilot/myapp/test/secrets/MYSQL_PASSWORD
   RAILS_ENV: /copilot/myapp/test/secrets/RAILS_ENV
-  SECRET_KEY_BASE: /copilot/myapp/test/secrets/SECRET_KEY_BASE
+  # SECRET_KEY_BASE: /copilot/myapp/test/secrets/SECRET_KEY_BASE
+  RAILS_MASTER_KEY: /copilot/myapp/test/secrets/RAILS_MASTER_KEY
 # storage:
 # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
 
